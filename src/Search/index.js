@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
 
 class Search extends Component {
   static navigationOptions = {
-    title: 'Search Results'
+    title: 'Search Results',
+    headerBackTitle: 'Search',
   };
 
   constructor(props) {
@@ -115,6 +116,14 @@ class Search extends Component {
     this.fetchResults(this.searchString);
   }
 
+  onRepositoryClicked = repository => () => {
+    const { navigate } = this.props.navigation;
+    navigate('Repository', {
+      title: repository.node.name,
+      url: repository.node.url
+    });
+  }
+
   fetchResults = async (searchString) => {
     const query = `
       {
@@ -132,6 +141,7 @@ class Search extends Component {
             node {
               ... on Repository {
                 id
+                name
                 nameWithOwner
                 description
                 stargazers {
@@ -188,7 +198,7 @@ class Search extends Component {
   renderRow = ({ item }) => {
     const repository = item.node;
     return (
-      <View style={styles.row}>
+      <TouchableOpacity onPress={this.onRepositoryClicked(item)} style={styles.row}>
         <Icon type={'octicon'} name={'repo'} color={'#0366d6'} size={repoIconSize} />
         <View style={styles.itemContent}>
           <Text style={styles.repositoryName}>{repository.nameWithOwner}</Text>
@@ -201,7 +211,7 @@ class Search extends Component {
           <Text style={styles.starsCount}>{repository.stargazers.totalCount}</Text>
           <Icon type={'octicon'} name={'star'} color={'#6a737d'} size={repoIconSize} />
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 
