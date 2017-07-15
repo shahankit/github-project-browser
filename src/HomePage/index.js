@@ -53,9 +53,14 @@ export default class GithubProjectBrowser extends Component {
 
   onSearchPressed = () => {
     const searchString = this.searchString;
+    if (!searchString) {
+      return;
+    }
     const { navigate } = this.props.navigation;
     navigate('Search', { searchString });
   }
+
+  searchString = 'react-native';
 
   render() {
     return (
@@ -73,6 +78,7 @@ export default class GithubProjectBrowser extends Component {
         <TextInput
           onChangeText={this.onChangeText}
           style={styles.textInput}
+          defaultValue={this.searchString}
           placeholder={'Enter search text'}
         />
         <TouchableOpacity style={styles.searchButton} onPress={this.onSearchPressed}>
