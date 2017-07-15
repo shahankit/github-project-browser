@@ -1,3 +1,0 @@
-export default {
-  GITHUB_ACCESS_TOKEN: '<YOUR-GITHUB-PERSONAL-ACCESS-TOKEN>'
-};
